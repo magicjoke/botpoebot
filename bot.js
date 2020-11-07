@@ -1,5 +1,5 @@
 const tmi = require('tmi.js');
-const sql = require('sqlite');
+//const sql = require('sqlite');
 
 const NinjaAPI = require("poe-ninja-api-manager");
 
@@ -26,7 +26,7 @@ const { AsyncLocalStorage } = require('async_hooks');
 
 const allowed = ['Yumichi', 'Askariot'];
 //var db = new sql.Database('./db/voting.db');
-sql.open("./db/voting.db");
+//sql.open("./db/voting.db");
 //sql.open("./database.sqlite");
 // db.each("SELECT * FROM users", function(err, row) {
 //     console.log(row);
@@ -220,117 +220,117 @@ async function onMessageHandler (target, context, msg, self) {
   }
   
 
-  // Голосовалка
-  if (commandName === '!голосовалка') {
+  // // Голосовалка
+  // if (commandName === '!голосовалка') {
 
-    // Берем опрос с базы
-    const votes = await sql.get(`SELECT * FROM votes`);
+  //   // Берем опрос с базы
+  //   const votes = await sql.get(`SELECT * FROM votes`);
 
-    // Название опроса
-    var vote_name = votes.vote_name;
-    // Варианты ответов
-    var vote_options = votes.vote_options;
-    // Делим варианты в аррей
-    var arr = vote_options.split(",");
-    //console.log(vote_name, vote_options);
+  //   // Название опроса
+  //   var vote_name = votes.vote_name;
+  //   // Варианты ответов
+  //   var vote_options = votes.vote_options;
+  //   // Делим варианты в аррей
+  //   var arr = vote_options.split(",");
+  //   //console.log(vote_name, vote_options);
 
-    var fix_vote_name = vote_name + " Варианты: " + " _______________________________ ";
-    var options_array = [fix_vote_name];
-    var i = 1;
-    // Перебираем все варианты
-    for(var z=0; z < arr.length; z++){
-      var number = 0;
+  //   var fix_vote_name = vote_name + " Варианты: " + " _______________________________ ";
+  //   var options_array = [fix_vote_name];
+  //   var i = 1;
+  //   // Перебираем все варианты
+  //   for(var z=0; z < arr.length; z++){
+  //     var number = 0;
 
-      const num_votes = await sql.all(`SELECT * FROM users WHERE votedOption =${i}`); //await getVotes(i);
-      if(num_votes){
-        number = num_votes.length;
-      } else {
-        number = 0;
-      }
+  //     const num_votes = await sql.all(`SELECT * FROM users WHERE votedOption =${i}`); //await getVotes(i);
+  //     if(num_votes){
+  //       number = num_votes.length;
+  //     } else {
+  //       number = 0;
+  //     }
 
-      var test = i + ")" + arr[z] + " | Голосов: "+ number + " _______________________________ ";
-      i++;
-      options_array.push(test);
-    }
+  //     var test = i + ")" + arr[z] + " | Голосов: "+ number + " _______________________________ ";
+  //     i++;
+  //     options_array.push(test);
+  //   }
 
-    console.log(options_array);
+  //   console.log(options_array);
 
-    client.say(target, options_array.join("") );
+  //   client.say(target, options_array.join("") );
 
-  }
-  if (commandName.startsWith('!создать_опрос')){
+  // }
+  // if (commandName.startsWith('!создать_опрос')){
 
-    // Проверка на доступ к созданию
-    if(allowed.includes(context['display-name'])){
-      // Название опроса
-      var vote_name = commandName.split("\"")[1];
-      // Вся информация
-      var all_info = commandName.split("\"");
-      // Выделяем Варианты ответа
-      var arr_answers = all_info.splice(2, all_info.length);
-      // Убираем лишниее с вариантво овтета
-      var filtered_answers = arr_answers.filter(function(str) {
-        return /\S/.test(str);
-      });
+  //   // Проверка на доступ к созданию
+  //   if(allowed.includes(context['display-name'])){
+  //     // Название опроса
+  //     var vote_name = commandName.split("\"")[1];
+  //     // Вся информация
+  //     var all_info = commandName.split("\"");
+  //     // Выделяем Варианты ответа
+  //     var arr_answers = all_info.splice(2, all_info.length);
+  //     // Убираем лишниее с вариантво овтета
+  //     var filtered_answers = arr_answers.filter(function(str) {
+  //       return /\S/.test(str);
+  //     });
 
-      // Передаем данны для записи в базу.
-      addVoteToDatabase(target, vote_name, filtered_answers);
-    } else {
-      client.say(target, "А тебе низя PunOko"); 
-    }
+  //     // Передаем данны для записи в базу.
+  //     addVoteToDatabase(target, vote_name, filtered_answers);
+  //   } else {
+  //     client.say(target, "А тебе низя PunOko"); 
+  //   }
 
-  }
+  // }
 
-  // Голосовать
-  if (commandName.startsWith('!голос')){
+  // // Голосовать
+  // if (commandName.startsWith('!голос')){
 
-    var vote_option = commandName.split(' ')[1];
-    var voter_name =  JSON.stringify(context['display-name']).toString();
+  //   var vote_option = commandName.split(' ')[1];
+  //   var voter_name =  JSON.stringify(context['display-name']).toString();
 
-    // Берем опрос с базы
-    const vote = await sql.get(`SELECT * FROM votes`);
-    if(vote != ""){
-      // Макс вариант ответа
-      var max_number = vote.vote_options.split(",").length;
-      // Проверка существует ли опрос.
-      if (vote_option <= max_number){
-        // Выбираеем юзера с базы
-        const user = await sql.all(`SELECT * FROM users WHERE name=${voter_name}`);
-          if(user != ""){
-            // Если юзаер есть - возвращаем.
-            client.say(target, "Вы уже голосовали SMOrc");
-          } else {
-            // Если юзера нет - создаем и добавляем
-            sql.run(`INSERT INTO users(id_user, name, isVoted, votedOption) VALUES(1, ${voter_name}, true, ${vote_option})`);
-            client.say(target, "Ваш голос учтен SeemsGood");
-          }
-      } else {
-        // Если вариант ответа не верен
-        client.say(target, "Вариант опроса не верен SMOrc");
-      }
-    } else { 
-      // Если опросов нет - выдает сообщение
-      client.say(target, "На данный момент нет опросов PunOko"); 
-    }
-  }
-  // Добавить вариант
-  if (commandName.startsWith('!добавить_вариант')){
-    // Новый вариант
-    var new_option = commandName.split(' ')[1];
-    // Берем текущий опрос
-    const vote = await sql.get(`SELECT * FROM votes`);
-    var options_array = vote.vote_options;
-    // Раздлелям и добавляем туда новый вариант
-    var splited_options = vote.vote_options.split(",");
-    splited_options.push(new_option);
-    // Обьединяем и конвертируем в джсон стринг
-    var joined_new_arr = splited_options.join(",");
-    var new_options_arr_json = JSON.stringify(joined_new_arr).toString();
-    // Обновляем базу
-    sql.run(`UPDATE votes SET vote_options = ${new_options_arr_json}`);
-    client.say(target, "Вариант ответа добавлем SeemsGood"); 
+  //   // Берем опрос с базы
+  //   const vote = await sql.get(`SELECT * FROM votes`);
+  //   if(vote != ""){
+  //     // Макс вариант ответа
+  //     var max_number = vote.vote_options.split(",").length;
+  //     // Проверка существует ли опрос.
+  //     if (vote_option <= max_number){
+  //       // Выбираеем юзера с базы
+  //       const user = await sql.all(`SELECT * FROM users WHERE name=${voter_name}`);
+  //         if(user != ""){
+  //           // Если юзаер есть - возвращаем.
+  //           client.say(target, "Вы уже голосовали SMOrc");
+  //         } else {
+  //           // Если юзера нет - создаем и добавляем
+  //           sql.run(`INSERT INTO users(id_user, name, isVoted, votedOption) VALUES(1, ${voter_name}, true, ${vote_option})`);
+  //           client.say(target, "Ваш голос учтен SeemsGood");
+  //         }
+  //     } else {
+  //       // Если вариант ответа не верен
+  //       client.say(target, "Вариант опроса не верен SMOrc");
+  //     }
+  //   } else { 
+  //     // Если опросов нет - выдает сообщение
+  //     client.say(target, "На данный момент нет опросов PunOko"); 
+  //   }
+  // }
+  // // Добавить вариант
+  // if (commandName.startsWith('!добавить_вариант')){
+  //   // Новый вариант
+  //   var new_option = commandName.split(' ')[1];
+  //   // Берем текущий опрос
+  //   const vote = await sql.get(`SELECT * FROM votes`);
+  //   var options_array = vote.vote_options;
+  //   // Раздлелям и добавляем туда новый вариант
+  //   var splited_options = vote.vote_options.split(",");
+  //   splited_options.push(new_option);
+  //   // Обьединяем и конвертируем в джсон стринг
+  //   var joined_new_arr = splited_options.join(",");
+  //   var new_options_arr_json = JSON.stringify(joined_new_arr).toString();
+  //   // Обновляем базу
+  //   sql.run(`UPDATE votes SET vote_options = ${new_options_arr_json}`);
+  //   client.say(target, "Вариант ответа добавлем SeemsGood"); 
 
-  }
+  // }
 
   if (commandName === '!сундук') {
     const divan = openChest();
@@ -484,7 +484,7 @@ async function getChars(target, msg){
 // Called every time the bot connects to Twitch chat
 function onConnectedHandler (addr, port) {
   // Подключаемся к базе.
-  connectSQL();
+  //connectSQL();
 
   //getInfo();
 
@@ -492,46 +492,46 @@ function onConnectedHandler (addr, port) {
 
 }
 
-async function connectSQL(){
+// async function connectSQL(){
 
-  //let db = new sql.Database('./db/voting.db', (err) => {
+//   //let db = new sql.Database('./db/voting.db', (err) => {
 
-    sql.run('CREATE TABLE IF NOT EXISTS users(id_user string, name text, isVoted text, votedOption text)');
-    sql.run('CREATE TABLE IF NOT EXISTS votes(id_votes string, vote_name text, vote_options text)');
+//     sql.run('CREATE TABLE IF NOT EXISTS users(id_user string, name text, isVoted text, votedOption text)');
+//     sql.run('CREATE TABLE IF NOT EXISTS votes(id_votes string, vote_name text, vote_options text)');
 
-    console.log('Connected to the database...');
-  //});
+//     console.log('Connected to the database...');
+//   //});
 
-}
+// }
 
-async function addVoteToDatabase(target, vote_name, answers_arr){
-  // Убираем лишние сомволы с аррея ответов
-  var filtered_arr = answers_arr.toString().replace(/"/g, ``);
-  // Название опроса
-  var rdy_vote_name = JSON.stringify(vote_name).toString();
-  // "ДЖсоним" варианты ответов 
-  var rdy_arr_options = JSON.stringify(filtered_arr).toString();
+// async function addVoteToDatabase(target, vote_name, answers_arr){
+//   // Убираем лишние сомволы с аррея ответов
+//   var filtered_arr = answers_arr.toString().replace(/"/g, ``);
+//   // Название опроса
+//   var rdy_vote_name = JSON.stringify(vote_name).toString();
+//   // "ДЖсоним" варианты ответов 
+//   var rdy_arr_options = JSON.stringify(filtered_arr).toString();
 
-  // Берем опрос с базы.
-  const votes = await sql.get(`SELECT * FROM votes`);
-  console.log(votes);
-  if(votes){
-    // Если опрос есть - обновляем его
-    sql.run(`UPDATE votes SET vote_name = ${rdy_vote_name}, vote_options =  ${rdy_arr_options}`);
-    // Удаляем юзеры-ответы
-    sql.run(`DELETE FROM users`);
-    // Отправляем сообщение в чат
-    client.say(target, "Опрос обновлен SeemsGood");
-  } else {
-    // Если опроса нет - создаем
-    sql.run(`INSERT INTO votes(id_votes, vote_name, vote_options) VALUES(1, ${rdy_vote_name}, ${rdy_arr_options})`);
-    // Удаляем юезры-ответы
-    sql.run(`DELETE FROM users`);
-    // Отправляем сообщение в чат
-    client.say(target, "Опрос создан SeemsGood");
-  }
+//   // Берем опрос с базы.
+//   const votes = await sql.get(`SELECT * FROM votes`);
+//   console.log(votes);
+//   if(votes){
+//     // Если опрос есть - обновляем его
+//     sql.run(`UPDATE votes SET vote_name = ${rdy_vote_name}, vote_options =  ${rdy_arr_options}`);
+//     // Удаляем юзеры-ответы
+//     sql.run(`DELETE FROM users`);
+//     // Отправляем сообщение в чат
+//     client.say(target, "Опрос обновлен SeemsGood");
+//   } else {
+//     // Если опроса нет - создаем
+//     sql.run(`INSERT INTO votes(id_votes, vote_name, vote_options) VALUES(1, ${rdy_vote_name}, ${rdy_arr_options})`);
+//     // Удаляем юезры-ответы
+//     sql.run(`DELETE FROM users`);
+//     // Отправляем сообщение в чат
+//     client.say(target, "Опрос создан SeemsGood");
+//   }
 
-}
+// }
 
 // Используется для тестов коллбэка базы
 function callback(row) { 
@@ -539,11 +539,11 @@ function callback(row) {
   return row;
 }
 
-async function getVotes(i){
-  const num_votes = await sql.get(`SELECT * FROM users WHERE votedOption =${i}`);
+// async function getVotes(i){
+//   const num_votes = await sql.get(`SELECT * FROM users WHERE votedOption =${i}`);
 
-  return num_votes;
-}
+//   return num_votes;
+// }
 
 
 
