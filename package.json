@@ -1,6 +1,10 @@
 {
   "requires": true,
   "lockfileVersion": 1,
+  "repository": {
+	  "type": "git",
+	  "url": "git://github.com/magicjoke/botpoebot.git"
+  },
   "dependencies": {
     "abbrev": {
       "version": "1.1.1",
