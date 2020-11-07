@@ -1,6 +1,9 @@
 {
   "requires": true,
   "lockfileVersion": 1,
+  "description": ...,
+  "version": ...,
+  "private": true,
   "repository": {
 	  "type": "git",
 	  "url": "git://github.com/magicjoke/botpoebot.git"
