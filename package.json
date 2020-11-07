@@ -1,8 +1,8 @@
 {
   "requires": true,
   "lockfileVersion": 1,
-  "description": ...,
-  "version": ...,
+  "description": "botpoebot",
+  "version": "0.0.1",
   "private": true,
   "repository": {
 	  "type": "git",
