@@ -1,6 +1,9 @@
 const tmi = require('tmi.js');
 //const sql = require('sqlite');
 
+// Для сохранения инфы
+const fs = require('fs');
+
 const NinjaAPI = require("poe-ninja-api-manager");
 
 var ninjaAPI = new NinjaAPI({
@@ -120,6 +123,56 @@ async function onMessageHandler (target, context, msg, self) {
     client.say(target, `Слыш, сам ты тупик SMOrc`);
     console.log(`* Executed ${commandName} command`);
   }
+
+  // Майнкрафт
+  if (commandName.indexOf('майнкрафт') >= 0 || commandName.indexOf('мэйн') >= 0 || commandName.indexOf('майнкампф') >= 0) {
+    client.say(target, `Майнкрафт мая жизнь SMOrc`);
+    console.log(`* Executed ${commandName} command`);
+  }
+
+  //
+  if (commandName === '!join') {
+    // Имя
+    const user = context['display-name'];
+    var number = 0;
+    var x = false;
+    // Читаем
+    fs.readFile('test.txt','utf8', function read(err, data) { if (err) { throw err; }
+      // Получаем инфрмацию с файла
+      const content = JSON.parse(data);
+      //console.log(content);
+      // Проверка пустой ли файл
+      if (content.length === 0){
+        // Если пустой - создаем
+        // Пушим в ррей
+        content.push({"id": 0, "username": user, "number": number});
+        // Конверирует
+        var jsonData = JSON.stringify(content);
+        // Добавляем в файл
+        fs.writeFile("test.txt", jsonData, function(err) { if (err) { console.log(err); } });
+      } else {
+        // Если не пустой - добавляем
+        content.forEach(element => {
+          // Если юзера нет в файле
+          if(element['username'] != user && x === false){
+
+            var last = content[content.length - 1];
+            var last_id = last['id'] + 1;
+            //console.log(last['id']);
+            // Пушим его в аррей
+            content.push({"id": last_id, "username": user, "number": number});
+            // Конвертируем аррей
+            var jsonData = JSON.stringify(content);
+            // Добавляем аррей в файл
+            fs.writeFile("test.txt", jsonData, function(err) { if (err) { console.log(err); }
+            x = true;
+            });
+          } 
+        });
+      }
+    });
+  }
+
 
   //Офф
   if( commandName.indexOf('я офф') >= 0){
