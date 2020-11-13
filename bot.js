@@ -398,7 +398,7 @@ async function onMessageHandler (target, context, msg, self) {
     const icq = calibrateIQ();
     const user = context['display-name'];
 
-    if(user == "Antol_lpc"){
+    if(user == "Anton_lpc"){
       client.say(target, "@" + user +" " + "Тоха брат, твой Айсикью не помещается в сообщении Kappa");
     } else {
       client.say(target, "@" + user +" " + icq);
