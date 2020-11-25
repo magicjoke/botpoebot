@@ -400,7 +400,14 @@ async function onMessageHandler (target, context, msg, self) {
 
     if(user == "Anton_lpc"){
       client.say(target, "@" + user +" " + "Тоха брат, твой Айсикью не помещается в сообщении Kappa");
-    } else {
+    } else if(user == "Mir0ng"){
+      if(icq <= 50){
+        client.say(target, "@" + user +" " + "Больше 50 Kappa");
+      } else {
+        client.say(target, "@" + user +" " + icq);
+      }
+      
+    }else {
       client.say(target, "@" + user +" " + icq);
     }
 
