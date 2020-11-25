@@ -395,19 +395,12 @@ async function onMessageHandler (target, context, msg, self) {
 
 
   if(commandName === '!iq'){
-    const icq = calibrateIQ();
     const user = context['display-name'];
+    const icq = calibrateIQ(user);
 
     if(user == "Anton_lpc"){
       client.say(target, "@" + user +" " + "Тоха брат, твой Айсикью не помещается в сообщении Kappa");
-    } else if(user == "Mir0ng"){
-      if(icq <= 50){
-        client.say(target, "@" + user +" " + "Больше 50 Kappa");
-      } else {
-        client.say(target, "@" + user +" " + icq);
-      }
-      
-    }else {
+    } else {
       client.say(target, "@" + user +" " + icq);
     }
 
@@ -452,12 +445,17 @@ async function clientSaySMTH(target, value){
   client.say(target, value + " Хавосов");
 }
 
-function calibrateIQ(){
+function calibrateIQ(user){
   let random = ~~(Math.random() * 300) + 1;
   if(random == 1){
     return "Твой ICQ равен '" + random + "' - о, ты тоже анимешник? TehePelo ";
   } else if(random > 1 && random <= 50){
-    return "Твой ICQ равен '" + random + "' - ну хоть на стрим смог зайти BrokeBack";
+    if(user == "Mir0ng"){
+      return "Больше 50 Kappa";
+    } else {
+      return "Твой ICQ равен '" + random + "' - ну хоть на стрим смог зайти BrokeBack";
+    }
+    
   } else if(random > 50 && random <= 100){
     return "Твой ICQ равен '" + random + "' - для начала ниче, небойсь в доту гоняешь SMOrc";
   } else if(random > 100 && random <= 200){
