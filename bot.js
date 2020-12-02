@@ -49,6 +49,7 @@ async function onMessageHandler (target, context, msg, self) {
   // Remove whitespace from chat message
   const commandName = msg.trim();
   console.log(commandName);
+  console.log(context);
   // If the command is known, let's execute it
   if (commandName === '!dice') {
     const num = rollDice();
@@ -100,7 +101,16 @@ async function onMessageHandler (target, context, msg, self) {
     }
     
   }
+  if(context['custom-reward-id'] == 'c73ba151-8ec3-4017-80c7-5fd5cdd7857c'){
+    const divan = openChest();
+    const user = context['display-name'];
 
+    client.say(target, "@" + user +" " + divan);
+
+    console.log(context);
+    console.log(`* Executed ${commandName} command`);
+    //client.say(target, `!сундук ` + msg);
+  } 
   if(context['custom-reward-id'] == '256efe5e-1b95-4bd7-b28a-58b35db0e29f'){
     client.say(target, `!sr ` + msg);
   }
@@ -388,11 +398,13 @@ async function onMessageHandler (target, context, msg, self) {
   if (commandName === '!сундук') {
     const divan = openChest();
     const user = context['display-name'];
+
     if(user == "botpoebot"){
       client.say(target, "@" + user +" " + divan);
     } else {
       client.say(target, "А тебе низя");
     }
+
     console.log(context);
     console.log(`* Executed ${commandName} command`);
   } 
