@@ -467,23 +467,31 @@ function calibrateIQ(user){
   }
 }
 
+
+
 function openChest(){
   var number = Math.random();
   console.log(number);
-  if (number < 0.01) {
+  if (number < 0.005) {
     return "Открыл сундук и получил САБКУ!1 PogChamp";
-  }else if (number < 0.02){
-    return "Открыл сундук и получил Заказ игры!1 PogChamp";
-  }else if (number < 0.07){
-    return "Открыл сундук и получил Смену названия канала Kappa";
+  }else if (number < 0.01){
+    return "Открыл сундук и получил... Заказ игры!1 PogChamp";
+  }else if (number < 0.03){
+    return "Открыл сундук и получил... Випку на месяц! PogChamp";
+  }else if (number < 0.05){
+    return "Открыл сундук и получил... Возможно сделать собственный звук! PogChamp";
+  }else if (number < 0.1){
+    return "Открыл сундук и получил... + 100 рублей к долгу стримеру! Kappa";
   }else if (number < 0.2){
-    return "Открыл сундук и получил Челендж стримеру! TehePelo";
-  }else if (number < 0.3){
-    return "Открыл сундук и получил Возврат поинтов! PunOko";
+    return "Открыл сундук и получил... заказ Челенджа стримеру! TehePelo";
+  }else if (number < 0.5){
+    return "Открыл сундук и получил... Возврат поинтов! PunOko";
+  }else if (number < 0.7){
+    return "Открыл сундук и получил... + 10 рублей к долгу стримеру! Kappa";
   }else if (number < 0.8){
-    return "Открыл сундук и получил Мяу от стримлера PunOko";
+    return "Открыл сундук и получил... Мяу от стримлера PunOko";
   }else if (number < 0.9){
-    return "Открыл сундук и получил Водичку PunOko";
+    return "Открыл сундук и получил... Водичку (стримлер должен выпить водички) PunOko";
   } else {
     return "Открыл сундук и получил... не получил SMOrc";
   }
