@@ -388,7 +388,11 @@ async function onMessageHandler (target, context, msg, self) {
   if (commandName === '!сундук') {
     const divan = openChest();
     const user = context['display-name'];
-    client.say(target, "@" + user +" " + divan);
+    if(user == "botpoebot"){
+      client.say(target, "@" + user +" " + divan);
+    } else {
+      client.say(target, "А тебе низя");
+    }
     console.log(context);
     console.log(`* Executed ${commandName} command`);
   } 
