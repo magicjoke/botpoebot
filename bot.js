@@ -498,7 +498,7 @@ function openChest(){
     return "Открыл сундук и получил... Возможно сделать собственный звук! PogChamp";
   }else if (number < 0.1){
     return "Открыл сундук и получил... + 100 рублей к долгу стримеру! Kappa";
-  }else if (number < 0.2){
+  }else if (number < 0.11){
     return "Открыл сундук и получил... заказ Челенджа стримеру! TehePelo";
   }else if (number < 0.5){
     return "Открыл сундук и получил... Возврат поинтов! PunOko";
