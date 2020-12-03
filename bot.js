@@ -102,8 +102,8 @@ async function onMessageHandler (target, context, msg, self) {
     
   }
   if(context['custom-reward-id'] == 'c73ba151-8ec3-4017-80c7-5fd5cdd7857c'){
-    const divan = openChest();
     const user = context['display-name'];
+    const divan = openChest(user);
 
     client.say(target, "@" + user +" " + divan);
 
@@ -142,45 +142,8 @@ async function onMessageHandler (target, context, msg, self) {
 
   //
   if (commandName === '!join') {
-    // Имя
     const user = context['display-name'];
-    var number = 0;
-    var x = false;
-    // Читаем
-    fs.readFile('test.txt','utf8', function read(err, data) { if (err) { throw err; }
-      // Получаем инфрмацию с файла
-      const content = JSON.parse(data);
-      //console.log(content);
-      // Проверка пустой ли файл
-      if (content.length === 0){
-        // Если пустой - создаем
-        // Пушим в ррей
-        content.push({"id": 0, "username": user, "number": number});
-        // Конверирует
-        var jsonData = JSON.stringify(content);
-        // Добавляем в файл
-        fs.writeFile("test.txt", jsonData, function(err) { if (err) { console.log(err); } });
-      } else {
-        // Если не пустой - добавляем
-        content.forEach(element => {
-          // Если юзера нет в файле
-          if(element['username'] != user && x === false){
-
-            var last = content[content.length - 1];
-            var last_id = last['id'] + 1;
-            //console.log(last['id']);
-            // Пушим его в аррей
-            content.push({"id": last_id, "username": user, "number": number});
-            // Конвертируем аррей
-            var jsonData = JSON.stringify(content);
-            // Добавляем аррей в файл
-            fs.writeFile("test.txt", jsonData, function(err) { if (err) { console.log(err); }
-            x = true;
-            });
-          } 
-        });
-      }
-    });
+    addToBorg(user, amount);
   }
 
 
@@ -396,10 +359,10 @@ async function onMessageHandler (target, context, msg, self) {
   // }
 
   if (commandName === '!сундук') {
-    const divan = openChest();
     const user = context['display-name'];
+    const divan = openChest(user);
 
-    if(user == "botpoebot"){
+    if(user == "botpoebot" || user == "Askariot"){
       client.say(target, "@" + user +" " + divan);
     } else {
       client.say(target, "А тебе низя");
@@ -461,6 +424,48 @@ async function clientSaySMTH(target, value){
   client.say(target, value + " Хавосов");
 }
 
+function addToBorg(user, number){
+  // Имя
+  //const user = context['display-name'];
+  //var number = 0;
+  var x = false;
+  // Читаем
+  fs.readFile('test.txt','utf8', function read(err, data) { if (err) { throw err; }
+    // Получаем инфрмацию с файла
+    const content = JSON.parse(data);
+    //console.log(content);
+    // Проверка пустой ли файл
+    if (content.length === 0){
+      // Если пустой - создаем
+      // Пушим в ррей
+      content.push({"id": 0, "username": user, "number": number});
+      // Конверирует
+      var jsonData = JSON.stringify(content);
+      // Добавляем в файл
+      fs.writeFile("test.txt", jsonData, function(err) { if (err) { console.log(err); } });
+    } else {
+      // Если не пустой - добавляем
+      content.forEach(element => {
+        // Если юзера нет в файле
+        if(element['username'] != user && x === false){
+
+          var last = content[content.length - 1];
+          var last_id = last['id'] + 1;
+          //console.log(last['id']);
+          // Пушим его в аррей
+          content.push({"id": last_id, "username": user, "number": number});
+          // Конвертируем аррей
+          var jsonData = JSON.stringify(content);
+          // Добавляем аррей в файл
+          fs.writeFile("test.txt", jsonData, function(err) { if (err) { console.log(err); }
+          x = true;
+          });
+        } 
+      });
+    }
+  });
+}
+
 function calibrateIQ(user){
   let random = ~~(Math.random() * 300) + 1;
   if(random == 1){
@@ -485,7 +490,7 @@ function calibrateIQ(user){
 
 
 
-function openChest(){
+function openChest(user){
   var number = Math.random();
   console.log(number);
   if (number < 0.005) {
@@ -497,12 +502,17 @@ function openChest(){
   }else if (number < 0.05){
     return "Открыл сундук и получил... Возможно сделать собственный звук! PogChamp";
   }else if (number < 0.1){
+    //const user = context['display-name'];
+    var amount = 100;
+    addToBorg(user, amount);
     return "Открыл сундук и получил... + 100 рублей к долгу стримеру! Kappa";
   }else if (number < 0.11){
     return "Открыл сундук и получил... заказ Челенджа стримеру! TehePelo";
   }else if (number < 0.5){
     return "Открыл сундук и получил... Возврат поинтов! PunOko";
   }else if (number < 0.7){
+    var amount = 100;
+    addToBorg(user, amount);
     return "Открыл сундук и получил... + 10 рублей к долгу стримеру! Kappa";
   }else if (number < 0.8){
     return "Открыл сундук и получил... Мяу от стримлера PunOko";
