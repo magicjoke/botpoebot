@@ -49,7 +49,7 @@ async function onMessageHandler (target, context, msg, self) {
   // Remove whitespace from chat message
   const commandName = msg.trim();
   console.log(commandName);
-  console.log(context);
+  //console.log(context);
   // If the command is known, let's execute it
   if (commandName === '!dice') {
     const num = rollDice();
@@ -143,6 +143,7 @@ async function onMessageHandler (target, context, msg, self) {
   //
   if (commandName === '!join') {
     const user = context['display-name'];
+    var amount = 322;
     addToBorg(user, amount);
   }
 
@@ -372,6 +373,49 @@ async function onMessageHandler (target, context, msg, self) {
     console.log(`* Executed ${commandName} command`);
   } 
 
+  if(commandName === '!долг'){
+    const user = context['display-name'];
+    //const borg = "test";
+
+    await fs.readFile('test.txt','utf8', function read(err, data) { if (err) { throw err; }
+      // Получаем инфрмацию с файла
+      const content = JSON.parse(data);
+      //console.log(content);
+      //var n = content.includes(user);
+      var n = content.filter(x => x.username === user);
+      console.log(n);
+      // Проверка пустой ли файл
+      if(n.length >= 1){
+        if (content.length === 0){ } else {
+          content.forEach(element => {
+            if (element['username'] == user){
+                console.log("getBorg");
+                for (var i = 0; i < content.length; i++) {
+                  if (content[i].username === user) {
+                    var old_number = content[i].number;
+                    console.log(old_number);
+                    
+                    var borg =  "Твой долг стримеру '" + old_number + "' рублей monkaS";
+                    client.say(target, "@" + user +" " + borg);
+                    break;
+                  }
+                }
+            }
+          });
+        }
+      } else {
+        var borg = "А ты не должник... пока что Kappa";
+        client.say(target, "@" + user +" " + borg);
+      }
+    });
+
+    //client.say(target, "@" + user +" " + borg);
+    //console.log(context);
+
+    console.log(`* Executed ${commandName} command`);
+  }
+
+
 
   if(commandName === '!iq'){
     const user = context['display-name'];
@@ -460,10 +504,32 @@ function addToBorg(user, number){
           fs.writeFile("test.txt", jsonData, function(err) { if (err) { console.log(err); }
           x = true;
           });
-        } 
+        } else if (element['username'] == user && x === false){
+
+            console.log("update");
+            for (var i = 0; i < content.length; i++) {
+              if (content[i].username === user) {
+                var old_number = content[i].number;
+                var new_number = old_number + number;
+                content[i].number = content[i].number + number;
+                var jsonData = JSON.stringify(content);
+                  fs.writeFile("test.txt", jsonData, function(err) { if (err) { console.log(err); }
+                  x = true;
+                  });
+                break;
+              }
+          }
+
+          x = true;
+        }
       });
     }
   });
+}
+
+async function checkBorg(user){
+
+
 }
 
 function calibrateIQ(user){
@@ -511,7 +577,7 @@ function openChest(user){
   }else if (number < 0.5){
     return "Открыл сундук и получил... Возврат поинтов! PunOko";
   }else if (number < 0.7){
-    var amount = 100;
+    var amount = 10;
     addToBorg(user, amount);
     return "Открыл сундук и получил... + 10 рублей к долгу стримеру! Kappa";
   }else if (number < 0.8){
