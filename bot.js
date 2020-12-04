@@ -373,7 +373,7 @@ async function onMessageHandler (target, context, msg, self) {
     console.log(`* Executed ${commandName} command`);
   } 
 
-  if(commandName === '!долг'){
+  if(commandName === '!долг322'){
     const user = context['display-name'];
     //const borg = "test";
 
