@@ -582,7 +582,7 @@ function openChest(user){
     return "Открыл сундук и получил... + 10 рублей к долгу стримеру! Kappa";
   }else if (number < 0.7){
     return "Открыл сундук и получил... Мяу от стримлера PunOko";
-  }else if (number < 0.8){
+  }else if (number < 0.9){
     return "Открыл сундук и получил... Водичку (стримлер должен выпить водички) PunOko";
   } else {
     return "Открыл сундук и получил... не получил SMOrc";
