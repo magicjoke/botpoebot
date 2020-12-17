@@ -105,7 +105,13 @@ async function onMessageHandler (target, context, msg, self) {
     const user = context['display-name'];
     const divan = openChest(user);
 
-    client.say(target, "@" + user +" " + divan);
+    if(divan == "Открыл сундук и получил... Банан! PunOko"){
+      client.say(target, "@" + user +" " + divan);
+    } else {
+      client.say(target, "@" + user +" " + divan);
+      client.say(target, "/timeout " + "@" + user +" 30");
+    }
+    //client.say(target, "/timeout " + "@" + user +" 30");
 
     console.log(context);
     console.log(`* Executed ${commandName} command`);
@@ -578,6 +584,8 @@ function openChest(user){
     return "Открыл сундук и получил... добавить фото в инсту! (Или хотя бы сделать инсту) TehePelo";
   }else if (number < 0.5){
     return "Открыл сундук и получил... Возврат поинтов! PunOko";
+  }else if(number < 0.6){
+    return "Открыл сундук и получил... Банан! PunOko";
   }else if (number < 0.7){
     return "Открыл сундук и получил... Мяу от стримлера PunOko";
   }else if (number < 0.85){
