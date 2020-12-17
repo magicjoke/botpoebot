@@ -114,6 +114,7 @@ async function onMessageHandler (target, context, msg, self) {
         } else if (z == 1){
           client.say(target, "/timeout " + "@" + user +" 30");
         }
+      }
     }
     //client.say(target, "/timeout " + "@" + user +" 30");
 
