@@ -108,8 +108,12 @@ async function onMessageHandler (target, context, msg, self) {
     if(divan == "Открыл сундук и получил... Банан! PunOko"){
       client.say(target, "@" + user +" " + divan);
     } else {
-      client.say(target, "@" + user +" " + divan);
-      client.say(target, "/timeout " + "@" + user +" 30");
+      for(var z=0; z < 2; z++){
+        if(z == 0){
+          client.say(target, "@" + user +" " + divan);
+        } else if (z == 1){
+          client.say(target, "/timeout " + "@" + user +" 30");
+        }
     }
     //client.say(target, "/timeout " + "@" + user +" 30");
 
