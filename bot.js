@@ -105,17 +105,17 @@ async function onMessageHandler (target, context, msg, self) {
     const user = context['display-name'];
     const divan = openChest(user);
 
-    if(divan == "Открыл сундук и получил... Банан! PunOko"){
+    //if(divan == "Открыл сундук и получил... Банан! PunOko"){
       client.say(target, "@" + user +" " + divan);
-    } else {
-      for(var z=0; z < 2; z++){
-        if(z == 0){
-          client.say(target, "@" + user +" " + divan);
-        } else if (z == 1){
-          client.say(target, "/timeout " + "@" + user +" 30");
-        }
-      }
-    }
+    // } else {
+    //   for(var z=0; z < 2; z++){
+    //     if(z == 0){
+    //       client.say(target, "@" + user +" " + divan);
+    //     } else if (z == 1){
+    //       client.say(target, "/timeout " + "@" + user +" 30");
+    //     }
+    //   }
+    // }
     //client.say(target, "/timeout " + "@" + user +" 30");
 
     console.log(context);
@@ -589,8 +589,8 @@ function openChest(user){
     return "Открыл сундук и получил... добавить фото в инсту! (Или хотя бы сделать инсту) TehePelo";
   }else if (number < 0.5){
     return "Открыл сундук и получил... Возврат поинтов! PunOko";
-  }else if(number < 0.6){
-    return "Открыл сундук и получил... Банан! PunOko";
+  // }else if(number < 0.6){
+  //   return "Открыл сундук и получил... Банан! PunOko";
   }else if (number < 0.7){
     return "Открыл сундук и получил... Мяу от стримлера PunOko";
   }else if (number < 0.85){
