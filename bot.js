@@ -506,6 +506,8 @@ async function onMessageHandler (target, context, msg, self) {
     for(var k in content['chatters']['viewers']) {
       user_arr.push(content['chatters']['viewers'][k]);
     }
+    const knifeTarget = user_arr[Math.floor(Math.random() * user_arr.length)];
+
     var roll_first = Math.floor(Math.random() * 100); 
     var roll_second = Math.floor(Math.random() * 100); 
 
