@@ -471,6 +471,9 @@ async function onMessageHandler (target, context, msg, self) {
     for(var k in content['chatters']['broadcaster']) {
       user_arr.push(content['chatters']['broadcaster'][k]);
     }
+    for(var k in content['chatters']['vips']) {
+      user_arr.push(content['chatters']['vips'][k]);
+    }
     for(var k in content['chatters']['moderators']) {
       user_arr.push(content['chatters']['moderators'][k]);
     }
@@ -480,6 +483,39 @@ async function onMessageHandler (target, context, msg, self) {
     const knifeTarget = user_arr[Math.floor(Math.random() * user_arr.length)];
 
     client.say(target, "@" + user + " бросил 🔪🔪🔪🔪 и попал в " + "@" + knifeTarget);
+  }
+
+  // PVP
+  if(commandName === '!pvp'){
+    const user = context['display-name'];
+
+    const response = await fetch('https://tmi.twitch.tv/group/user/yumichi/chatters');
+    const content = await response.json()
+
+    var user_arr = [];
+
+    for(var k in content['chatters']['broadcaster']) {
+      user_arr.push(content['chatters']['broadcaster'][k]);
+    }
+    for(var k in content['chatters']['vips']) {
+      user_arr.push(content['chatters']['vips'][k]);
+    }
+    for(var k in content['chatters']['moderators']) {
+      user_arr.push(content['chatters']['moderators'][k]);
+    }
+    for(var k in content['chatters']['viewers']) {
+      user_arr.push(content['chatters']['viewers'][k]);
+    }
+    var roll_first = Math.floor(Math.random() * 100); 
+    var roll_second = Math.floor(Math.random() * 100); 
+
+    if(roll_first > roll_second){
+      client.say(target, "@" + user + " победил в дуеле заролив "+roll_first+" в то время как " + "@" + knifeTarget + " заролил(а) " + roll_second + " PogChamp");
+    } else if (roll_first < roll_second){
+      client.say(target, "@" + user + " проиграл в дуеле заролив "+roll_first+" в то время как " + "@" + knifeTarget + " заролил(а) " + roll_second + " FeelsBadMan");
+    } else if (roll_first == roll_second){
+      client.say(target, "@" + user + " Ничья!");
+    }
   }
 
   // Лиса
