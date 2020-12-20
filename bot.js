@@ -440,6 +440,24 @@ async function onMessageHandler (target, context, msg, self) {
 
     //client.say(target, "@" + user +" " + icq);
   }
+  // погода
+  if( commandName.startsWith("!погода")){
+
+    var city = encodeURIComponent(commandName.split(' ')[1]);
+    var m_city = decodeURIComponent(city);
+    var apikey = '8f21db3b0c84ee0282cd3b2f68a5de4a';
+    const response = await fetch('http://api.openweathermap.org/data/2.5/weather?q='+city+'&appid='+apikey +'&units=metric&lang=ru');
+    const content = await response.json();
+
+    const capitalize = (s) => {
+      if (typeof s !== 'string') return ''
+      return s.charAt(0).toUpperCase() + s.slice(1)
+    }
+    console.log(content);
+
+    client.say(target, "Город: "+m_city+" (" +content['sys']['country'] + ")"+ ". Температура: " + content['main']['temp'] + "°C (ощущается как "+ content['main']['feels_like'] +"°C ), влажность: " + content['main']['humidity'] + "%, ветер: " + content['wind']['speed'] + " м/c. "+ capitalize(content['weather'][0]['description']) +"." );
+
+  }
 
   // Ножи
   if(commandName === '!ножи'){
