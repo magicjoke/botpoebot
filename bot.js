@@ -449,7 +449,7 @@ async function onMessageHandler (target, context, msg, self) {
     const kissTarget = user_arr[Math.floor(Math.random() * user_arr.length)];
 
     if(user == "kissyakot"){
-      client.say (target, "/me Нежно целует @Yumichi в носик :3");
+      client.say (target, "/me @Kissyakot Нежно целует @Yumichi в носик :3");
     } else {
       client.say (target, "/me @" + user + " нежно целует @" + kissTarget + " в носик :3");
     }
