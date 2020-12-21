@@ -426,6 +426,36 @@ async function onMessageHandler (target, context, msg, self) {
     console.log(`* Executed ${commandName} command`);
   }
 
+  if(commandName === '!поцелуй'){
+    const user = context['display-name'];
+
+    const response = await fetch('https://tmi.twitch.tv/group/user/yumichi/chatters');
+    const content = await response.json()
+
+    var user_arr = [];
+
+    for(var k in content['chatters']['broadcaster']) {
+      user_arr.push(content['chatters']['broadcaster'][k]);
+    }
+    for(var k in content['chatters']['vips']) {
+      user_arr.push(content['chatters']['vips'][k]);
+    }
+    for(var k in content['chatters']['moderators']) {
+      user_arr.push(content['chatters']['moderators'][k]);
+    }
+    for(var k in content['chatters']['viewers']) {
+      user_arr.push(content['chatters']['viewers'][k]);
+    }
+    const kissTarget = user_arr[Math.floor(Math.random() * user_arr.length)];
+
+    if(user == "kissyakot"){
+      client.say (target, "/me Нежно целует @Yumichi в носик :3");
+    } else {
+      client.say (target, "/me @" + user + " нежно целует @" + kissTarget + " в носик :3");
+    }
+  
+  }
+    
 
 
   if(commandName === '!iq'){
@@ -626,11 +656,11 @@ function calibrateIQ(user){
 function openChest(user){
   var number = Math.random();
   console.log(number);
-  if (number < 0.005) {
+  if (number < 0.01) {
     return "Открыл сундук и получил САБКУ!1 PogChamp";
-  }else if (number < 0.01){
+  }else if (number < 0.02){
     return "Открыл сундук и получил... Заказ игры!1 PogChamp";
-  }else if (number < 0.03){
+  }else if (number < 0.035){
     return "Открыл сундук и получил... Випку на месяц! PogChamp";
   }else if (number < 0.05){
     return "Открыл сундук и получил... Возможно сделать собственный звук! PogChamp";
@@ -639,19 +669,19 @@ function openChest(user){
     var amount = 100;
     addToBorg(user, amount);
     return "Открыл сундук и получил... + 100 рублей к долгу стримеру! Kappa";
-  }else if (number < 0.11){
+  }else if (number < 0.12){
     return "Открыл сундук и получил... заказ Челенджа стримеру! TehePelo";
-  }else if(number < 0.12){
+  }else if(number < 0.15){
     return "Открыл сундук и получил... добавить фото в инсту! (Или хотя бы сделать инсту) TehePelo";
   }else if (number < 0.5){
     return "Открыл сундук и получил... Возврат поинтов! PunOko";
-  // }else if(number < 0.6){
-  //   return "Открыл сундук и получил... Банан! PunOko";
-  }else if (number < 0.7){
+  }else if(number < 0.7){
+     return "Открыл сундук и получил... Душку Ихоря! Ууу сюка души его быстрее чай SMOrc";
+  }else if (number < 0.8){
     return "Открыл сундук и получил... Мяу от стримлера PunOko";
-  }else if (number < 0.85){
+  }else if (number < 0.9){
     return "Открыл сундук и получил... Водичку (стримлер должен выпить водички) PunOko";
-  }else if (number < 0.95){
+  }else if (number < 0.99){
     var amount = 10;
     addToBorg(user, amount);
     return "Открыл сундук и получил... + 10 рублей к долгу стримеру! Kappa";
